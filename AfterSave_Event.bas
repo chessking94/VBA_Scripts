@@ -1,4 +1,4 @@
-Private Sub Workbook_BeforeClose(Cancel As Boolean)
+Private Sub Workbook_AfterSave(ByVal Success As Boolean)
 
 Dim wb As Workbook
 Dim mPath As String
