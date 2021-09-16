@@ -26,6 +26,11 @@ If ws.Cells(lrow, 1).Value = "" Then
     End
 End If
 
+'create database connection
+Set Conn = New Connection
+ConnString = "DSN=MSSQLSERVER_ODBC;UID=eehunt;Trusted_Connection=Yes;APP=Microsoft Office;WSID=HUNT-PC1;DATABASE=ChessAnalysis;"
+Conn.Open ConnString
+
 'do validation
 For i = 2 To lrow
     LName = ws.Cells(i, 1).Value
@@ -34,28 +39,25 @@ For i = 2 To lrow
     Src = ws.Cells(i, 4).Value
     
     If LName = "" Or FName = "" Or UName = "" Or Src = "" Then
+        Conn.Close
+        Set Conn = Nothing
         MsgBox "Missing value! Row = " & i, vbCritical
         End
     End If
-Next i
-
-'create database connection
-Set Conn = New Connection
-ConnString = "DSN=MSSQLSERVER_ODBC;UID=eehunt;Trusted_Connection=Yes;APP=Microsoft Office;WSID=HUNT-PC1;DATABASE=ChessAnalysis;"
-Conn.Open ConnString
-
-'confirm user has not already been entered
-Set rs = New Recordset
-sql_chk = "SELECT PlayerID FROM UsernameXRef WHERE Username = '" & UName & "' AND Source = '" & Src & "'"
-rs.Open sql_chk, ConnString
-If Not (rs.BOF And rs.EOF) Then 'There are no records
+    
+    Set rs = New Recordset
+    sql_chk = "SELECT PlayerID FROM UsernameXRef WHERE Username = '" & UName & "' AND Source = '" & Src & "'"
+    rs.Open sql_chk, ConnString
+    If Not (rs.BOF And rs.EOF) Then 'There are no records
+        rs.Close
+        Conn.Close
+        Set rs = Nothing
+        Set Conn = Nothing
+        MsgBox "Source username " & UName & " already exists!", vbCritical
+        End
+    End If
     rs.Close
-    Conn.Close
-    Set rs = Nothing
-    Set Conn = Nothing
-    MsgBox "Source username already exists!", vbCritical
-    End
-End If
+Next i
 
 'all is good, proceed with inserting new data
 sql_insert = "INSERT INTO UsernameXRef (LastName, FirstName, Username, Source, EEHFlag, DownloadFlag, UserStatus) VALUES "
@@ -65,10 +67,10 @@ DLFlg = "0"
 UsrStat = "Open"
 For i = 2 To lrow
     'set and format values, technically vulnerable to injection but why would I ever do that to myself?
-    LName = "'" & Replace(LName, "'", "''") & "'"
-    FName = "'" & Replace(FName, "'", "''") & "'"
-    UName = "'" & Replace(UName, "'", "''") & "'"
-    Src = "'" & Replace(Src, "'", "''") & "'"
+    LName = "'" & Replace(ws.Cells(i, 1).Value, "'", "''") & "'"
+    FName = "'" & Replace(ws.Cells(i, 2).Value, "'", "''") & "'"
+    UName = "'" & Replace(ws.Cells(i, 3).Value, "'", "''") & "'"
+    Src = "'" & Replace(ws.Cells(i, 4).Value, "'", "''") & "'"
     
     sql_cmd = sql_insert & "(" & LName & ", " & FName & ", " & UName & ", " & Src & ", " & EHFlg & ", " & DLFlg & ", '" & UsrStat & "')"
     'Debug.Print sql_cmd
