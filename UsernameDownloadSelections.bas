@@ -9,7 +9,7 @@ End With
 
 Dim wb As Workbook, ws As Worksheet
 Dim lrow As Long
-Dim LName As String, FName As String, UName As String, Src As String, EHFlg As String, DLFlg As String, DNE As String
+Dim LName As String, FName As String, UName As String, Src As String, Nte As String, EHFlg As String, DLFlg As String, DNE As String
 
 Dim sql_insert As String, sql_cmd As String
 Dim Conn As ADODB.Connection
@@ -60,7 +60,7 @@ For i = 2 To lrow
 Next i
 
 'all is good, proceed with inserting new data
-sql_insert = "INSERT INTO UsernameXRef (LastName, FirstName, Username, Source, EEHFlag, DownloadFlag, UserStatus) VALUES "
+sql_insert = "INSERT INTO UsernameXRef (LastName, FirstName, Username, Source, EEHFlag, DownloadFlag, UserStatus, Note) VALUES "
 sql_cmd = ""
 EHFlg = "0"
 DLFlg = "0"
@@ -71,8 +71,9 @@ For i = 2 To lrow
     FName = "'" & Replace(ws.Cells(i, 2).Value, "'", "''") & "'"
     UName = "'" & Replace(ws.Cells(i, 3).Value, "'", "''") & "'"
     Src = "'" & Replace(ws.Cells(i, 4).Value, "'", "''") & "'"
+    Nte = "'" & Replace(ws.Cells(i, 5).Value, "'", "''") & "'"
     
-    sql_cmd = sql_insert & "(" & LName & ", " & FName & ", " & UName & ", " & Src & ", " & EHFlg & ", " & DLFlg & ", '" & UsrStat & "')"
+    sql_cmd = sql_insert & "(" & LName & ", " & FName & ", " & UName & ", " & Src & ", " & EHFlg & ", " & DLFlg & ", '" & UsrStat & "', " & Nte & ")"
     'Debug.Print sql_cmd
     Conn.Execute sql_cmd
 Next i
