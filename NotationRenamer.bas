@@ -9,7 +9,8 @@ Dim response As Variant
 Dim y As String
  
 MyFolder = "C:\Users\eehunt\Documents\Chess\Notation Copies\To Be Formatted"
-MyFile = Dir(MyFolder & "\*.pdf")
+If Right(MyFolder, 1) <> Application.PathSeparator Then MyFolder = MyFolder & Application.PathSeparator
+MyFile = Dir(MyFolder & "*.pdf")
 y = Year(Date)
 Set wb1 = ThisWorkbook
 Set ws1 = wb1.Sheets("Games")
@@ -39,14 +40,14 @@ End If
 
 ws1.Range("N2").Value = ws1.Range("J2").Value
 ws1.Range("O2").Value = ws1.Range("J5").Value
-MyFile = Dir(MyFolder & "\*.pdf")
-ToFolder = "C:\Users\eehunt\Documents\Chess\Notation Copies\" & y
+MyFile = Dir(MyFolder & "*.pdf")
+ToFolder = "C:\Users\eehunt\Documents\Chess\Notation Copies\" & y & Application.PathSeparator
 
 For i = 11 To num
     If MyFile <> "" Then
         filename = ws1.Range("G" & i).Value
-        MyOldFile = MyFolder & "\" & MyFile
-        MyNewFile = ToFolder & "\" & filename & ".pdf"
+        MyOldFile = MyFolder & MyFile
+        MyNewFile = ToFolder & filename & ".pdf"
         Name MyOldFile As MyNewFile
         MyFile = Dir
     End If
