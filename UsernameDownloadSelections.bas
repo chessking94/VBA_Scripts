@@ -119,7 +119,7 @@ Conn.Execute sql_cmd
 For i = 2 To lrow
     sql_cmd = ""
     'only update if new value = 1
-    If ws.Cells(i, 17).Value = 1 Then
+    If ws.Cells(i, 18).Value = 1 Then
         sql_cmd = "UPDATE UsernameXRef SET DownloadFlag = 1 WHERE PlayerID = " & ws.Cells(i, 1).Value
         'Debug.Print sql_cmd
         Conn.Execute sql_cmd

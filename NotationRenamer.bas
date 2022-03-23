@@ -48,6 +48,8 @@ For i = 11 To num
         filename = ws1.Range("G" & i).Value
         MyOldFile = MyFolder & MyFile
         MyNewFile = ToFolder & filename & ".pdf"
+        'Debug.Print MyOldFile
+        'Debug.Print MyNewFile
         Name MyOldFile As MyNewFile
         MyFile = Dir
     End If
