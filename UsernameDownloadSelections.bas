@@ -81,6 +81,8 @@ Next i
 Conn.Close
 Set Conn = Nothing
 
+MsgBox "Done", vbInformation
+
 With Application
     .ScreenUpdating = False
     .DisplayAlerts = False
