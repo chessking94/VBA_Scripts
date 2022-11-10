@@ -28,7 +28,7 @@ End If
 
 'create database connection
 Set Conn = New Connection
-ConnString = "DSN=MSSQLSERVER_ODBC;UID=eehunt;Trusted_Connection=Yes;APP=Microsoft Office;WSID=HUNT-PC1;DATABASE=ChessAnalysis;"
+ConnString = "DSN=MSSQLSERVER_ODBC;UID=eehunt;Trusted_Connection=Yes;APP=Microsoft Office;WSID=HUNT-PC1;DATABASE=ChessWarehouse;"
 Conn.Open ConnString
 
 'do validation
@@ -110,7 +110,7 @@ Set ws = wb.Sheets("DownloadFlag")
 lrow = ws.Cells(Rows.Count, 1).End(xlUp).Row
 
 Set Conn = New Connection
-ConnString = "DSN=MSSQLSERVER_ODBC;UID=eehunt;Trusted_Connection=Yes;APP=Microsoft Office;WSID=HUNT-PC1;DATABASE=ChessAnalysis;"
+ConnString = "DSN=MSSQLSERVER_ODBC;UID=eehunt;Trusted_Connection=Yes;APP=Microsoft Office;WSID=HUNT-PC1;DATABASE=ChessWarehouse;"
 Conn.Open ConnString
 
 'reset DownloadFlag values to 0's to prevent any accidental requests
