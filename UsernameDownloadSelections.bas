@@ -71,7 +71,11 @@ For i = 2 To lrow
     FName = "'" & Replace(ws.Cells(i, 2).Value, "'", "''") & "'"
     UName = "'" & Replace(ws.Cells(i, 3).Value, "'", "''") & "'"
     Src = "'" & Replace(ws.Cells(i, 4).Value, "'", "''") & "'"
-    Nte = "'" & Replace(ws.Cells(i, 5).Value, "'", "''") & "'"
+    If ws.Cells(i, 5).Value = "" Then
+        Nte = "NULL"
+    Else
+        Nte = "'" & Replace(ws.Cells(i, 5).Value, "'", "''") & "'"
+    End If
     
     sql_cmd = sql_insert & "(" & LName & ", " & FName & ", " & UName & ", " & Src & ", " & EHFlg & ", " & DLFlg & ", '" & UsrStat & "', " & Nte & ")"
     'Debug.Print sql_cmd
