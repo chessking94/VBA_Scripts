@@ -30,7 +30,7 @@ End If
 
 num = ws1.Range("I11").Value + 10
 
-If ws1.Range("O2").Value = ws1.Range("J5").Value Then
+If ws1.Range("P2").Value = ws1.Range("K5").Value Then
     response = MsgBox("This end date was already used, continue?", vbYesNo + vbInformation)
     If response = vbNo Then
         MsgBox "Cancelled!", vbExclamation
@@ -38,10 +38,14 @@ If ws1.Range("O2").Value = ws1.Range("J5").Value Then
     End If
 End If
 
-ws1.Range("N2").Value = ws1.Range("J2").Value
-ws1.Range("O2").Value = ws1.Range("J5").Value
+ws1.Range("O2").Value = ws1.Range("K2").Value
+ws1.Range("P2").Value = ws1.Range("K5").Value
 MyFile = Dir(MyFolder & "*.pdf")
 ToFolder = "C:\Users\eehunt\Documents\Chess\Notation Copies\" & y & Application.PathSeparator
+
+If Len(Dir(ToFolder, vbDirectory)) = 0 Then
+    MkDir ToFolder
+End If
 
 For i = 11 To num
     If MyFile <> "" Then
